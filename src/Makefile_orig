@@ -1,0 +1,107 @@
+# Generated automatically from Makefile.in by configure.
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
+
+# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+
+srcdir = .
+top_srcdir = ..
+
+top_builddir = ..
+
+
+TOOLPREFIX=arm-none-linux-gnueabi-
+CC=$(TOOLPREFIX)gcc
+PACKAGE = dd2
+SDL_CFLAGS = -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT
+SDL_CONFIG = /usr/bin/sdl-config
+SDL_LIBS = -lSDL -lpthread
+VERSION = 1.0.0
+INCLUDES="-L%PALMPDK%\device\lib"
+
+#SUBDIRS = data
+SUBDIRS = .
+
+DEVICEOPTS=-mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp
+
+bin_PROGRAMS = dd2
+dd2_SOURCES = menu.c SDL_plus.c cfg.c engine.c control.c engine.h control.h cfg.h SDL_plus.h menu.h main.c main.h
+
+AM_CFLAGS = -DDD2_DATA=\"data\" -Wall
+CONFIG_CLEAN_FILES = 
+PROGRAMS =  $(bin_PROGRAMS)
+
+
+DEFS =  -DPACKAGE=\"dd2\" -DVERSION=\"1.0.0\" -DHAVE_LIBM=1 -DHAVE_LIBSDL_MIXER=1  -I. -I$(srcdir) 
+LIBS = $(INCLUDES) -Wl,--allow-shlib-undefined -lSDL_mixer -lm  -lSDL -lpthread
+dd2_OBJECTS =  menu.o SDL_plus.o cfg.o engine.o control.o main.o
+
+CFLAGS = -g -O2 -Wall "-I%PALMPDK%\include" "-I%PALMPDK%\include\SDL" -D_GNU_SOURCE=1 -D_REENTRANT
+COMPILE = $(CC) $(DEVICEOPTS) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(CCLD) $(DEVICEOPTS) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+DIST_COMMON =  Makefile.am Makefile.in
+
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+
+SOURCES = $(dd2_SOURCES)
+OBJECTS = $(dd2_OBJECTS)
+
+all: all-recursive
+.SUFFIXES:
+.SUFFIXES: .S .c .o .s
+
+Makefile: 
+.c.o:
+	$(COMPILE) -c $<
+
+.s.o:
+	$(COMPILE) -c $<
+
+.S.o:
+	$(COMPILE) -c $<
+
+
+dd2: $(dd2_OBJECTS) $(dd2_DEPENDENCIES)
+	$(LINK) $(dd2_LDFLAGS) $(dd2_OBJECTS) $(dd2_LDADD) $(LIBS)
+
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run `make' without going through this Makefile.
+# To change the values of `make' variables: instead of editing Makefiles,
+# (1) if the variable is set in `config.status', edit `config.status'
+#     (which will cause the Makefiles to be regenerated when you run `make');
+# (2) otherwise, pass the desired values on the `make' command line.
+
+#all-recursive:
+#	@set fnord $(MAKEFLAGS); amf=$$2; \
+#	dot_seen=no; \
+#	target=`echo $@ | sed s/-recursive//`; \
+#	list='$(SUBDIRS)'; for subdir in $$list; do \
+#	  echo "Making $$target in $$subdir"; \
+#	  local_target="$$target-am"; \
+#	  echo "$$target-am";\
+#	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) all-am) \
+#	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+#	done; 
+
+
+all-recursive:
+	$(MAKE) $(AM_MAKEFLAGS) all-am
+
+
+all-am: Makefile $(PROGRAMS)
+
+
+
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:

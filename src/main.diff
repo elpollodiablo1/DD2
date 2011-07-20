@@ -1,0 +1,81 @@
+--- main.c	2010-09-08 21:26:11.179141000 -0400
++++ mainfull.c	2010-09-08 21:25:51.391273000 -0400
+@@ -42,7 +42,7 @@
+ extern pDesc player[2];
+ SDL_Joystick *joy[2]={ NULL, NULL };
+ SDL_Event event;
+-Uint32 tick, ntick, ttick1, ttick2, ttick3, ttick4, ttick5, ttick6, ttick7;
++Uint32 tick, ntick;
+ float scroll=0,scroll2=0;
+ 
+ bool pause;
+@@ -65,7 +65,7 @@
+     int i;
+     char buffer[512];
+ 
+-	/*sprintf(buffer,"%s/bgm1.wav",DD2_DATA); //"%s/bgm1.xm"
++	sprintf(buffer,"%s/bgm1.wav",DD2_DATA); //"%s/bgm1.xm"
+ 	bgm=Mix_LoadMUS(buffer);
+ 	if(!bgm)
+ 		fprintf(stderr,"Unable load bgm: %s\n", SDL_GetError());
+@@ -74,7 +74,7 @@
+ 	bgm_boss=Mix_LoadMUS(buffer);
+ 	if(!bgm_boss)
+ 		fprintf(stderr,"Unable load bgm_boss: %s\n", SDL_GetError());
+-	*/
++
+ 	for(i=0;i<NUM_EFX;i++) {
+ 		sprintf(buffer,"%s/efx%i.wav",DD2_DATA,i+1);
+ 		efx[i]=Mix_LoadWAV(buffer);
+@@ -148,6 +148,9 @@
+ 		
+ 		// player control 
+ 		if(player[0].shield) {
++			if(joy[0] && player[0].joy)
++				control_player_joy(joy[0],&player[0]);
++			else
+ 				control_player(&player[0]);
+ 		}
+ 		
+@@ -163,7 +166,7 @@
+ 			//fprintf(stderr,"diff %i\n",ntick-tick);
+ 			tick=ntick;
+ 				//fprintf(stderr,"everything in between %i\n",ntick-ttick6);
+-				// scrolling of background 
++				// scroll of background
+ 			{
+ 				SDL_Rect a,b;
+ 
+@@ -234,9 +237,9 @@
+ 					SDL_BlitSurface(gfx, &b, screen, &a);	
+ 				}
+ 			}
+-			
+ 			// enemy here 
+ 			engine_enemy();
++
+ 			// fire here 
+ 			engine_fire();
+ 			
+@@ -250,7 +253,8 @@
+ 			engine_obj();
+ 			
+ 			engine_vefx();
+-			// panel 			
++
++			/* panel */
+ 			drawPanel(gfx,screen,player);
+ 			SDL_Flip(screen);
+ 		}
+@@ -293,7 +297,11 @@
+ 	if(!loadScore(buffer,hiscore))
+ 		fprintf(stderr,"unable to read hi-scores, using defaults\n");
+ 
++	/* don't init sound if it's not needed */
++	if(conf.sound!=NO_SOUND)
+ 	i=SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_JOYSTICK);
++	else
++		i=SDL_Init(SDL_INIT_VIDEO|SDL_INIT_JOYSTICK);
+ 	if(i<0) {
+ 		fprintf(stderr,"Unable to init SDL: %s\n", SDL_GetError());
+ 		return 1;
