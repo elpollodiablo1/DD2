@@ -1,3 +1,4 @@
+- Remove Configure to match screen orientation.
 - more levels (gfx, ia, ...)
 - more music
 - optimizations (sin/cos tables?)
