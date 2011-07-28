@@ -30,7 +30,7 @@ loadBMP(char *file)
 	if(!a)
 		return NULL;
 
-	if(SDL_SetColorKey(a, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(gfx->format, 255, 0, 255))<0) {
+	if(SDL_SetColorKey(a, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(a->format, 255, 0, 255))<0) {
 			fprintf(stderr,"Unable to setup gfx: %s\n", SDL_GetError());
 			return NULL;	
 	
