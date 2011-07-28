@@ -28,15 +28,13 @@ loadBMP(char *file)
 
 	a=SDL_LoadBMP(file);
 	if(!a)
-		return NULL;
+	return NULL;
 
-	if(SDL_SetColorKey(a, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(a->format, 255, 0, 255))<0) {
-			fprintf(stderr,"Unable to setup gfx: %s\n", SDL_GetError());
-			return NULL;	
-	
-	b=SDL_DisplayFormat(a);
+	SDL_SetColorKey(a,(SDL_SRCCOLORKEY|SDL_RLEACCEL), SDL_MapRGB(a->format, 255, 0, 255));
+
+	b=SDL_DisplayFormatAlpha(a);
 	if(!b)
-		return NULL;
+	return NULL;
 
 	SDL_FreeSurface(a);
 	return b;
